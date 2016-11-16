@@ -10,19 +10,15 @@ def rpath_flag(ctx, path):
 def configure(ctx, stage_args):
     """
     Generates DOLFIN cmake line.
-
     Example::
-
         - name: configure
           build_type: Release
           set_env_flags: true
-
     Note: this is a fairly sophisticated build stage that inspects
     the build artifacts available to decide what to enable in DOLFIN.
     By default, this package builds DOLFIN with all required artifacts,
     debugging support enabled, and shared libraries enabled. The
     following extra keys are relevant:
-
     * build_type: Release, Debug, RelWithDebInfo or Developer.
     Release by default.
     * set_env_flags: CPPFLAGS and LDFLAGS will be set, as appropriate
@@ -37,24 +33,7 @@ def configure(ctx, stage_args):
                   '-D EIGEN3_INCLUDE_DIR:PATH="${EIGEN_DIR}/include/eigen3"',
                   '-D BOOST_ROOT:PATH="${BOOST_DIR}"',
                   '-D Boost_USE_MULTITHREADED:BOOL=${BOOST_USE_MULTITHREADED}',
-                  '-D DOLFIN_ENABLE_UNIT_TESTS:BOOL=OFF',
-                  '-D PETSC_INT_SIZE=32',
-                  '-D MPIEXEC=/opt/dev/sgi/mpt/mpt-2.08/bin/mpiexec_mpt'
-                  '-D CXXFLAGS="-std=c++11"',
-                  #'-D SLEPC_TEST_RUNS=ON',
-                  '-D PETSC_TEST_RUNS=ON',
-                  '-D SCOTCH_TEST_RUNS=true',
-                  '-D DOLFIN_IGNORE_PETSC4PY_VERSION:BOOL=OFF',
-                  '-D DOLFIN_IGNORE_SLEPC4PY_VERSION:BOOL=OFF',
-                  '-D DOLFIN_ENABLE_OPENMP:BOOL=OFF',
-                  '-D DOLFIN_SKIP_BUILD_TESTS:BOOL=ON',
-                  '-D MPI_CXX_LIBRARIES:STRING=/opt/dev/sgi/mpt/mpt-2.08/lib/libmpi++.so',
-                  '-D CC=mpicc', '-D CXX=mpicxx', '-D MPI_DIR=/opt/dev/sgi/mpt/mpt-2.08',
-                  '-D MPI_C_LIBRARIES:STRING=/opt/dev/sgi/mpt/mpt-2.08/lib/libmpi.so',
-                  '-D MPI_INCLUDE_PATH:STRING=/opt/dev/sgi/mpt/mpt-2.08/include/',
-                  '-D MPI_Fortran_INCLUDE_PATH:STRING=/opt/dev/sgi/mpt/mpt-2.08/include/'
-                  ]
-                  #
+                  '-D DOLFIN_ENABLE_UNIT_TESTS:BOOL=OFF']
 
     # CMake needs to be given all the dependency dirs as prefix paths
     # so that we search the HashDist directories before the system directories.
@@ -119,15 +98,6 @@ def configure(ctx, stage_args):
             libopenblas = '${OPENBLAS_DIR}/lib/libopenblas.so'
         conf_lines.append('-D LAPACK_LIBRARIES:FILEPATH="%s"' % libopenblas)
         conf_lines.append('-D BLAS_LIBRARIES:FILEPATH="%s"' % libopenblas)
-
-    if 'mkl' in ctx.dependency_dir_vars:
-        libmklblas = '${MKLPATH}/libmkl_blacs_intelmpi_lp64.so'
-        libmkllapack = '${MKLPATH}/libmkl_intelmpi_lp64.so'
-        conf_lines.append('-D LAPACK_LIBRARIES:FILEPATH="%s"' % libmkllapack)
-        conf_lines.append('-D BLAS_LIBRARIES:FILEPATH="%s"' % libmklblas)
-        #'',
-        #'-D LAPACK_LIBRARIES:=opt/dev/intel/2016.update2/mkl/lib/intel64/'
-
 
     if 'ZLIB' in ctx.dependency_dir_vars:
         conf_lines.append('-D ZLIB_ROOT="${ZLIB_DIR}"')
