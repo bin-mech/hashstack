@@ -1,0 +1,15 @@
+extends: [autotools_package]
+dependencies:
+  build: []
+
+defaults:
+  # /bin/m4 contains hard-coded path
+  relocatable: false
+
+sources:
+  - url: http://dev-www.libreoffice.org/src/cppunit-1.13.2.tar.gz
+    key: tar.gz:h5d5erxdgrxsxjgxzhuifwz23hv5h7f5
+
+when_build_dependency:
+  - prepend_path: PATH
+    value: '${ARTIFACT}/bin'

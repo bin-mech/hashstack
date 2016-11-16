@@ -4,3 +4,11 @@ when_build_dependency:
   - {set: 'MPIF77', value: '{{HOST_MPIF77}}'}
   - {set: 'MPIF90', value: '{{HOST_MPIF90}}'}
   - {set: 'MPIEXEC', value: '{{HOST_MPIEXEC}}'}
+#  - {set: 'I_MPI_CXX', value: '{{HOST_I_MPI_CXX}}'}
+#  - {set: 'I_MPI_CC', value: '{{HOST_I_MPI_CC}}'}
+#  - {set: 'I_MPI_F90', value: '{{HOST_I_MPI_F90}}'}
+#  - {set: 'I_MPI_F77', value: '{{HOST_I_MPI_F77}}'}
+#  - {set: 'I_MPI_FC', value: '{{HOST_I_MPI_FC}}'}
+#  - {set: 'MPI_HOME', value: '{{HOST_MPI_HOME}}'}
+# HOST_MPI_DIR: /opt/dev/sgi/mpt/mpt-2.08
+

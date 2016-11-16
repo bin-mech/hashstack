@@ -1,7 +1,11 @@
 when_build_dependency:
-- {set: 'BLAS_LDFLAGS', value: '-Wl,-rpath,{{HOST_MKLPATH}} -L{{HOST_MKLPATH}} -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm'}
-- {set: 'LAPACK_LDFLAGS', value: '-Wl,-rpath,{{HOST_MKLPATH}} -L{{HOST_MKLPATH}} -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm'}
+- {set: 'BLAS_LDFLAGS', value: '-Wl,-rpath,{{HOST_MKLPATH}} -L{{HOST_MKLPATH}} -lmkl_blacs_intelmpi_lp64 -lmkl_def -lmkl_avx2 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lm'}
+- {set: 'LAPACK_LDFLAGS', value: '-Wl,-rpath,{{HOST_MKLPATH}} -L{{HOST_MKLPATH}} -lmkl_blacs_intelmpi_lp64  -lmkl_def -lmkl_avx2 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core  -lm'}
 - {set: 'MKLPATH', value: '{{HOST_MKLPATH}}'}
 - {set: 'MKLROOT', value: '{{HOST_MKLROOT}}'}
 - {set: 'BLAS_DIR', value: '{{HOST_MKLPATH}}'}
+- {set: 'LD_PRELOAD' ,value: '{{HOST_MKLPATH}}/libmkl_core.so'}
 - {set: 'LAPACK_DIR', value: '{{HOST_MKLPATH}}'}
+- {set: 'SCALAPACK_DIR', value: '{{HOST_MKLPATH}}'}
+- {set: 'SCALAPACK_LIB', value: '-mkl -lmkl_scalapack_ilp64 - lmkl_blacs_intelmpi_ilp64 -lm'}
+- {prepend_path: LD_LIBRARY_PATH, value: '{HOST_MKLPATH}'}

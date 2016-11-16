@@ -38,3 +38,5 @@ when_build_dependency:
 - {set: 'BLAS_LDFLAGS', value: '-Wl,-rpath,${ARTIFACT}/lib -L${ARTIFACT}/lib -lopenblas'}
 - {set: 'LAPACK_LDFLAGS', value: '-Wl,-rpath,${ARTIFACT}/lib -L${ARTIFACT}/lib -lopenblas'}
 - {set: 'OPENBLAS_DIR', value: '${ARTIFACT}'}
+- {set: 'LAPACK_DIR', value: '${ARTIFACT}'}
+- {set: 'BLAS_DIR', value: '${ARTIFACT}'}

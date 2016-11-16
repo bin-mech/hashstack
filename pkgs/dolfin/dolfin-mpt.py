@@ -38,22 +38,15 @@ def configure(ctx, stage_args):
                   '-D BOOST_ROOT:PATH="${BOOST_DIR}"',
                   '-D Boost_USE_MULTITHREADED:BOOL=${BOOST_USE_MULTITHREADED}',
                   '-D DOLFIN_ENABLE_UNIT_TESTS:BOOL=OFF',
-                  '-D PETSC_INT_SIZE=32',
-                  '-D MPIEXEC=/opt/dev/sgi/mpt/mpt-2.08/bin/mpiexec_mpt'
-                  '-D CXXFLAGS="-std=c++11"',
-                  #'-D SLEPC_TEST_RUNS=ON',
-                  '-D PETSC_TEST_RUNS=ON',
-                  '-D SCOTCH_TEST_RUNS=true',
-                  '-D DOLFIN_IGNORE_PETSC4PY_VERSION:BOOL=OFF',
-                  '-D DOLFIN_IGNORE_SLEPC4PY_VERSION:BOOL=OFF',
+                  '-D PETSC_INT_SIZE=4',
+                  #'-D CXXFLAGS="-std=c++11"',
+                  '-D DOLFIN_SKIP_BUILD_TESTS:BOOL=OFF'
                   '-D DOLFIN_ENABLE_OPENMP:BOOL=OFF',
-                  '-D DOLFIN_SKIP_BUILD_TESTS:BOOL=ON',
                   '-D MPI_CXX_LIBRARIES:STRING=/opt/dev/sgi/mpt/mpt-2.08/lib/libmpi++.so',
                   '-D CC=mpicc', '-D CXX=mpicxx', '-D MPI_DIR=/opt/dev/sgi/mpt/mpt-2.08',
                   '-D MPI_C_LIBRARIES:STRING=/opt/dev/sgi/mpt/mpt-2.08/lib/libmpi.so',
                   '-D MPI_INCLUDE_PATH:STRING=/opt/dev/sgi/mpt/mpt-2.08/include/',
-                  '-D MPI_Fortran_INCLUDE_PATH:STRING=/opt/dev/sgi/mpt/mpt-2.08/include/'
-                  ]
+                  '-D MPI_Fortran_INCLUDE_PATH:STRING=/opt/dev/sgi/mpt/mpt-2.08/include/']
                   #
 
     # CMake needs to be given all the dependency dirs as prefix paths

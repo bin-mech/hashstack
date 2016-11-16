@@ -1,0 +1,87 @@
+extends: [cmake_package]
+
+dependencies:
+  when platform == 'linux':
+    build: [blas, boost, bzip2, dijitso, eigen, ffc, fiat, instant, libxml2, mpi, numpy,
+            pkg-config, ply, python, six, swig, sympy, ufl, zlib,
+            patchelf,
+            {{build_with}}]
+
+  when platform != 'linux':
+    build: [blas, boost, bzip2, dijitso, eigen, ffc, fiat, instant, libxml2, mpi, numpy,
+            pkg-config, ply, python, six, swig, sympy, ufl, zlib,
+            {{build_with}}]
+
+  run: [ply]
+
+sources:
+- key: tar.gz:miuljvsbqknezuzbig742il2cwlke7kz
+  url: https://bitbucket.org/fenics-project/dolfin/downloads/dolfin-2016.1.0.tar.gz
+
+defaults:
+  # share/dolfin/DOLFINConfig.cmake contains hard-coded path
+  relocatable: false
+
+build_stages:
+- when: with_find_path
+  name: cmake-find_path
+  before: setup_builddir
+  handler: bash
+  files: [dolfin-cmake-find_path.patch]
+  bash: |
+    patch -p1 < _hashdist/dolfin-cmake-find_path.patch
+
+- name: set_python_version
+  after: setup_builddir
+  handler: bash
+  bash: |
+    export PYVER={{pyver}}
+
+- name: configure ## See dolfin.py for details
+  mode: replace
+  after: set_python_version
+  build_type: {{build_type}}
+
+- when: platform == 'linux'
+  name: fix-rpath
+  after: install
+  handler: bash
+  bash: |
+    for lib in ${ARTIFACT}/lib/python{{pyver}}/site-packages/dolfin/cpp/_*.so; do
+        oldRPath=$(${PATCHELF} --print-rpath ${lib})
+        ${PATCHELF} --set-rpath $oldRPath:${ARTIFACT}/lib ${lib}
+    done
+
+- when: platform == 'Darwin'
+  name: fix-rpath
+  after: install
+  handler: bash
+  bash: |
+    for lib in ${ARTIFACT}/lib/python{{pyver}}/site-packages/dolfin/cpp/_*.so; do
+        install_name_tool -add_rpath ${BOOST_DIR}/lib ${lib}
+        install_name_tool -add_rpath ${VTK_DIR}/lib/vtk-5.10 ${lib}
+    done
+
+- when: platform == 'Cygwin'
+  name: dll_fix
+  handler: bash
+  after: install
+  bash: |
+    install dolfin/cyg*.dll ${ARTIFACT}/bin
+    install dolfin/swig/modules/**/*.dll ${ARTIFACT}/lib/python{{pyver}}/site-packages/dolfin/cpp
+
+when_build_dependency:
+- when platform == 'Cygwin':
+  - {prepend_path: PATH, value: '${ARTIFACT}/bin'}
+
+profile_links:
+- when: platform == 'Cygwin'
+  name: copy_dlls
+  copy: 'bin/*.dll'
+
+- when: platform == 'Cygwin'
+  name: copy_python_dlls
+  copy: 'lib/python{{pyver}}/site-packages/dolfin/cpp/*.dll'
+
+- name: everything
+  link: '*/**/*'

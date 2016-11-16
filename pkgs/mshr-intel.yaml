@@ -1,0 +1,18 @@
+extends: [cmake_package]
+
+dependencies:
+  build: [python, boost, dolfin-intel, gmp, mpfr, mpi, swig, {{build_with}}]
+
+sources:
+- key: tar.gz:5ehq6cmiyeclibycpkxslq2h7jxjtrf7
+  url: https://bitbucket.org/fenics-project/mshr/downloads/mshr-2016.1.0.tar.gz
+
+defaults:
+  # lib/CMake/mshr/mshr-config.cmake contains hard-coded path
+  relocatable: false
+
+build_stages:
+- name: configure
+  extra: ['-D BUILD_SHARED_LIBS:BOOL=ON',
+          '-D BOOST_ROOT:PATH="${BOOST_DIR}"',
+          '-D CMAKE_MACOSX_RPATH:BOOL=ON']
