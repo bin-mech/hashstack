@@ -28,7 +28,7 @@ parameters:
 packages:
   launcher:
   cmake:
-    use: host-cmake
+  #  use: host-cmake
   mpi:
     use: host-mpi
   openblas:
