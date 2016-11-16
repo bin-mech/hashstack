@@ -6,6 +6,10 @@ dependencies:
 defaults:
   version: '3.5.1'
 
+when version == '3.7.0':
+  sources:
+  - key: tar.gz:la3dgtwgf4ahwdsspq6wgv32ip7ohsdq
+    url: https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-3.7.0.tar.gz
 when version == '3.6.0':
   sources:
   - key: tar.gz:qjd7vd6tpdio2gb4zrmrj7aa7vu6ubgt

@@ -29,7 +29,14 @@ build_stages:
   handler: bash
   files: [dolfin-cmake-find_path.patch]
   bash: |
-    patch -p1 < _hashdist/dolfin-cmake-find_path.patch
+    patch -p1 --dry-run < _hashdist/dolfin-cmake-find_path.patch && patch -p1 < _hashdist/dolfin-cmake-find_path.patch
+
+- name: cmake-find-hdf5
+  before: setup_builddir
+  handler: bash
+  files: [dolfin-cmake-find-hdf5.patch]
+  bash: |
+    patch -p1 --dry-run < _hashdist/dolfin-cmake-find-hdf5.patch && patch -p1 < _hashdist/dolfin-cmake-find-hdf5.patch
 
 - name: set_python_version
   after: setup_builddir
@@ -59,7 +66,7 @@ build_stages:
   bash: |
     for lib in ${ARTIFACT}/lib/python{{pyver}}/site-packages/dolfin/cpp/_*.so; do
         install_name_tool -add_rpath ${BOOST_DIR}/lib ${lib}
-        install_name_tool -add_rpath ${VTK_DIR}/lib/vtk-5.10 ${lib}
+        install_name_tool -add_rpath ${VTK_DIR}/lib ${lib}
     done
 
 - when: platform == 'Cygwin'

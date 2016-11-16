@@ -114,7 +114,8 @@ def configure(ctx, stage_args):
             libopenblas = '${OPENBLAS_DIR}/lib/libopenblas.so'
         conf_lines.append('--with-blas-lapack-lib=%s' % libopenblas)
     else:
-        conf_lines.append('--with-blas-lapack-lib="${LAPACK_LDFLAGS}"')
+        if ctx.parameters['platform'] != 'Darwin':
+            conf_lines.append('--with-blas-lapack-lib="${LAPACK_LDFLAGS}"')
 
     # Special case, ParMETIS also provides METIS
     if 'PARMETIS' in ctx.dependency_dir_vars:
@@ -126,8 +127,13 @@ def configure(ctx, stage_args):
         conf_lines.append('--with-scotch-dir=${SCOTCH_DIR}')
         conf_lines.append('--with-ptscotch-dir=${SCOTCH_DIR}')
 
-    # Special case, Trilinos provides ML
-    if 'TRILINOS' in ctx.dependency_dir_vars:
+    if 'ML' in ctx.dependency_dir_vars:
+        conf_lines.append('--with-ml=1')
+        # ML requires the extra C++ library
+        conf_lines.append('--with-ml-lib="-L${ML_DIR}/lib -lml -lstdc++"')
+        conf_lines.append('--with-ml-include=${ML_DIR}/include')
+    elif 'TRILINOS' in ctx.dependency_dir_vars:
+        # Special case, Trilinos provides ML
         if ctx.parameters['platform'] == 'Darwin':
             libml = '${TRILINOS_DIR}/lib/libml.dylib'
         else:
@@ -152,7 +158,7 @@ def configure(ctx, stage_args):
 
     for dep_var in ctx.dependency_dir_vars:
         if dep_var in ['BLAS', 'HYPRE', 'LAPACK', 'OPENBLAS', 'PARMETIS',
-                       'SCOTCH', 'TRILINOS', 'SUITESPARSE']:
+                       'SCOTCH', 'TRILINOS', 'SUITESPARSE', 'ML']:
             continue
         if dep_var == 'MPI':
             conf_lines.append('--with-mpi-compilers')
