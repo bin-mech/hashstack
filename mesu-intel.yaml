@@ -51,7 +51,7 @@ packages:
     sources:
     - key: tar.gz:7iw6jxaz5dhegqvgnqce2wwjbkaf7doy
       url: https://github.com/numpy/numpy/archive/v1.11.2.tar.gz
-   # with_mkl: true
+    with_mkl: false
   #scipy:
   #  with_mkl: true
   python:
@@ -128,16 +128,18 @@ packages:
        url: https://bitbucket.org/fenics-project/dijitso.git
   #gmsh:
   cppunit:
-#  dolfin:
-#    use: dolfin-intel
-  dolfin-intel:
+   dolfin:
+     use: dolfin-intel
+  dolfin:
     sources:
      - url: https://bitbucket.org/fenics-project/dolfin.git
        key: git:b7dc546ecf835987f9f8758642a987d79f12c3a5
     build_with: |
        petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse,  scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
-    extra: ['-D']
-  mshr-intel:
+    extra: ['-D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so,
+            -D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so,
+            -D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so']
+  mshr:
    sources:
      - url: https://bitbucket.org/fenics-project/mshr.git
        key: git:e9f0dcb9e5cd5145689edb89de4edfde513a0f6d

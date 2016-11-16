@@ -1,15 +1,15 @@
 extends: [setuptools_package]
 dependencies:
-  build: [blas, lapack, cython]
-  run: [blas, lapack, cython]
+  build: [blas, lapack, cython, openblas]
+  run: [blas, lapack, cython, openblas]
 
 defaults:
   # Build with Intel MKL
   with_mkl: false
 
 sources:
-  - key: tar.gz:5cmod4vyscjlsu2sucsygfjkdbacbjes
-    url: https://github.com/numpy/numpy/archive/v1.11.0.tar.gz
+  - key: tar.gz:5cmod4vscjlsu2sucsygfjkdbacbjes
+    url: https://github.com/numpy/numpy/archive/v1.11.2.tar.gz
 
 
 build_stages:
@@ -19,9 +19,14 @@ build_stages:
     before: install
     handler: bash
     bash: |
+      echo 'the openblas directory is ' ${OPENBLAS_DIR}
       cat > site.cfg << EOF
       [atlas]
       atlas_libs = openblas
+      library_dirs = ${OPENBLAS_DIR}/lib
+      include_dirs = ${OPENBLAS_DIR}/include
+      [openblas]
+      libraries = openblas
       library_dirs = ${OPENBLAS_DIR}/lib
       include_dirs = ${OPENBLAS_DIR}/include
       EOF
@@ -32,6 +37,7 @@ build_stages:
     before: install
     handler: bash
     bash: |
+      #echo 'the openblas directory is ' ${OPENBLAS_DIR}
       export LDFLAGS="-shared -Wl,-rpath=${PYTHON_DIR}/lib -Wl,-rpath=${OPENBLAS_DIR}/lib $(${PYTHON_DIR}/bin/python-config --ldflags)"
       #export ATLAS=None
       export LAPACK=None
@@ -49,7 +55,7 @@ build_stages:
       mkl_libs = mkl_rt,pthread,m
       EOF
 
-  - when: machine == 'SGIICEX'
+  - when: machine == 'fffSGIICEX'
     name: set-LDFLAGS
     after: prologue
     before: install
