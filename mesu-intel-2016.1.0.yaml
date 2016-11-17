@@ -107,43 +107,23 @@ packages:
    - key: tar.gz:la3dgtwgf4ahwdsspq6wgv32ip7ohsdq
      url: https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-3.7.0.tar.gz
   fiat:
-    sources:
-     - key: git:74068e5423e5ed704644b5ae26fc4068d075f070
-       url: https://bitbucket.org/fenics-project/fiat.git
   ufl:
-    sources:
-     - key: git:85288e0ec4a1681fe7b8b8f8529a30c1aac78215
-       url: https://bitbucket.org/fenics-project/ufl.git
   ffc:
-    sources:
-     - key: git:2df82643bc0314d6395b6dc0deb56fac24ee43df
-       url: https://bitbucket.org/fenics-project/ffc.git
   instant:
-    sources:
-     - key: git:6827b084673e92c00ce349b45efdbe4308aa81f0
-       url: https://bitbucket.org/fenics-project/instant.git
   dijitso:
-    sources:
-     - key: git:5db90a0dc16bdbba7d55d4a7f00cc102a5dc2316
-       url: https://bitbucket.org/fenics-project/dijitso.git
-  #gmsh:
+  gmsh:
   cppunit:
-   dolfin:
-     use: dolfin-intel
   dolfin:
-    sources:
-     - url: https://bitbucket.org/fenics-project/dolfin.git
-       key: git:b7dc546ecf835987f9f8758642a987d79f12c3a5
     build_with: |
        petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse,  scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
     extra: ['-D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so,
             -D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so,
             -D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so']
   mshr:
-   sources:
-     - url: https://bitbucket.org/fenics-project/mshr.git
-       key: git:e9f0dcb9e5cd5145689edb89de4edfde513a0f6d
-   build_with: |
+    build_with: |
       vtk, cmake
-  #matplotlib:
+  matplotlib:
+    sources:
+    - url: https://pypi.python.org/packages/75/4e/2374eed18ac34421ccd7b4907080abd3009e112ca2c11b100c18961312e0/matplotlib-1.5.3.tar.gz
+      key: tar.gz:ucs5yopxquau6iei73jmnuwrfhyeit3r
 

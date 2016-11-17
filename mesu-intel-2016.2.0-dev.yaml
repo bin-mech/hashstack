@@ -1,0 +1,151 @@
+# This profile file controls your <#> (HashDist) build environment.
+
+# In the future, we'll provide better incorporation of
+# automatic environment detection.  For now, have a look
+# at the YAML files in the top-level directory and choose
+# the most *specific* file that matches your environment.
+
+extends:
+- file: linux.yaml
+
+parameters:
+  HOST_MPICC:  /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiicc
+  HOST_MPICXX: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiicpc
+  HOST_MPIF77: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiifort
+  HOST_MPIF90: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiifort
+  HOST_MPIEXEC: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiexec
+  HOST_MKLROOT: /opt/dev/intel/2016.update2/mkl/
+  HOST_MKLPATH: /opt/dev/intel/2016.update2/mkl/lib/intel64/
+  HOST_CMAKE: /opt/dev/cmake-3.6.0-rc1-Linux-x86_64/bin/cmake
+  PROLOGUE: |
+    export HOME=/home/maurini;source /usr/share/modules/init/bash;export OMP_NUM_THREADS=1;export USE_THREAD=0;export MODULEPATH=/usr/share/modules/modulefiles:/opt/dev/modulefiles;echo "loading modules";module load gcc/5.4.0  intel-compilers-16/16.0.2.181 intel-mpi/5.1.3.181 $HOME/modules/intel-cmkl-16/16.0.2 cmake;module list;echo "setting default compilers";/opt/dev/intel/2016.update2/compilers_and_libraries_2016.2.181/linux/bin/compilervars.sh intel64;/opt/dev/intel/2016.update2/mkl/bin/mklvars.sh intel64;export INTEL_LICENSE_FILE={28518@mesu0,28518@mesu1,28518@mesu-smn};export CC=icc; export CXX=icpc; export FC=ifort; export F77=ifort; export F90=ifort; export LD_LIBRARY_PATH=/opt/dev/gnucompilers/gcc-5.4/lib64:$LD_LIBRARY_PATH
+
+
+# require installed.  <#> will ensure that all packages
+# and their dependencies are installed when you build this
+# profile.
+
+packages:
+  launcher:
+  cmake:
+  #  use: host-cmake
+  mpi:
+    use: host-mpi
+  openblas:
+    use_thread: false
+  blas:
+    use: host-mkl
+    use_thread: false
+  lapack:
+    use: host-mkl
+    use_thread: false
+  #scalapack:
+  #  use: host-mkl
+  #  use_thread: false
+  #mkl:
+  #  use: host-mkl
+  #  use_thread: false
+  #hypre:
+  #  with_mkl: true
+  numpy:
+    sources:
+    - key: tar.gz:7iw6jxaz5dhegqvgnqce2wwjbkaf7doy
+      url: https://github.com/numpy/numpy/archive/v1.11.2.tar.gz
+    with_mkl: false
+  #scipy:
+  #  with_mkl: true
+  python:
+    host: false
+    build_with: |
+      openssl, bzip2, sqlite
+    link: shared
+  zmq:
+  hdf5:
+  parmetis:
+    without_check: true
+  petsc:
+    sources:
+    - key: tar.gz:skvlms373heeshxp77kmz27fzcqlvefe
+      url: http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.7.4.tar.gz    #sources:
+    build_with: |
+      parmetis, scotch, suitesparse
+    download: |
+      superlu, hypre, scalapack, blacs, mumps, ml, superlu_dist
+    coptflags: -O3 -march=native -mtune=native
+    link: shared
+    debug: false
+    fortran: true
+  slepc:
+    sources:
+    - key: tar.gz:h343zrsfuegbo6ovnm2qarzm5ntn62jo
+      url: http://slepc.upv.es/download/download.php?filename=slepc-3.7.3.tar.gz
+  boost:
+   # sources:
+   # - key: tar.gz:iqfft6f4iar5xzrilsmzrmhx7iuii2fy
+   #   url: https://sourceforge.net/projects/boost/files/boost/1.62.0/boost_1_62_0.tar.gz
+    toolset: intel-linux
+    address_model: 64
+    build_with: |
+     python
+  swig:
+  cython:
+    sources:
+     - url: https://github.com/cython/cython/archive/0.24.tar.gz
+       key: tar.gz:wyfzd4pmrcjbuqr5l4ff4kt4emwn74jn
+  pkg-config:
+  ipython:
+  mpi4py:
+  yaml:
+  petsc4py:
+   version: '3.7.0'
+   sources:
+   - url: https://bitbucket.org/petsc/petsc4py/downloads/petsc4py-3.7.0.tar.gz
+     key: tar.gz:4h62pjucmtb6ziqbj4st57spgbx2shln
+  slepc4py:
+   version: '3.7.0'
+   sources:
+   - key: tar.gz:la3dgtwgf4ahwdsspq6wgv32ip7ohsdq
+     url: https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-3.7.0.tar.gz
+  fiat:
+    sources:
+     - key: git:5bdea9eba05571791b05e763f69e318ccd57006e
+       url: https://bitbucket.org/fenics-project/fiat.git
+  ufl:
+    sources:
+     - key: git:013e6929bc56fc03e019a4f0f3dfd9ceee2eb199
+       url: https://bitbucket.org/fenics-project/ufl.git
+  ffc:
+    sources:
+     - key: git:8ff98cd30c35ef6728de7bca0ffb458ebb47789f
+       url: https://bitbucket.org/fenics-project/ffc.git
+  instant:
+    sources:
+     - key: git:3b624f87507cc3964697a71d0c128c56546f5b57
+       url: https://bitbucket.org/fenics-project/instant.git
+  dijitso:
+    sources:
+     - key: git:826609c7810ae4df06afa8767e2ba155d3a01a56
+       url: https://bitbucket.org/fenics-project/dijitso.git
+  gmsh:
+  cppunit:
+  dolfin:
+    sources:
+     - url: https://bitbucket.org/fenics-project/dolfin.git
+       key: git:66c8895dcc376d0c31e5ffaa45c051a41d29f62f
+    build_with: |
+       petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse,  scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
+    extra: ['-D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so,
+            -D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so,
+            -D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so']
+  mshr:
+   sources:
+     - url: https://bitbucket.org/fenics-project/mshr.git
+       key: git:6c4c7bb9410a27da5f83d0b6b0ebb406c09f378d
+   build_with: |
+      vtk, cmake
+  matplotlib:
+    sources:
+    - url: https://pypi.python.org/packages/75/4e/2374eed18ac34421ccd7b4907080abd3009e112ca2c11b100c18961312e0/matplotlib-1.5.3.tar.gz
+      key: tar.gz:ucs5yopxquau6iei73jmnuwrfhyeit3r
+
+
