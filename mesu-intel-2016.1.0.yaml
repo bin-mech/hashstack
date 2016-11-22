@@ -95,6 +95,7 @@ packages:
   pkg-config:
   ipython:
   mpi4py:
+  h5py:
   yaml:
   petsc4py:
    version: '3.7.0'
