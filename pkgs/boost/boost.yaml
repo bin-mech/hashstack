@@ -108,3 +108,7 @@ build_stages:
 when_build_dependency:
 - set: BOOST_MULTITHREADED
   value: "OFF"
+- set: BOOST_ROOT
+  value: '${ARTIFACT}'
+- set: BOOST_DIR
+  value: '${ARTIFACT}'

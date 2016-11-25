@@ -9,16 +9,15 @@ extends:
 - file: linux.yaml
 
 parameters:
-  HOST_MPICC:  /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiicc
-  HOST_MPICXX: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiicpc
-  HOST_MPIF77: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiifort
-  HOST_MPIF90: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiifort
-  HOST_MPIEXEC: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiexec
+  HOST_MPICC:  /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpigcc
+  HOST_MPICXX: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpigxx
+  HOST_MPIF77: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpifc
+  HOST_MPIF90: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpifc
+  HOST_MPIEXEC: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpirun
   HOST_MKLROOT: /opt/dev/intel/2016.update2/mkl/
   HOST_MKLPATH: /opt/dev/intel/2016.update2/mkl/lib/intel64/
-  HOST_CMAKE: /opt/dev/cmake-3.6.0-rc1-Linux-x86_64/bin/cmake
   PROLOGUE: |
-    export HOME=/home/maurini;source /usr/share/modules/init/bash;export OMP_NUM_THREADS=1;export USE_THREAD=0;export MODULEPATH=/usr/share/modules/modulefiles:/opt/dev/modulefiles;echo "loading modules";module load gcc/5.4.0  intel-compilers-16/16.0.2.181 intel-mpi/5.1.3.181 $HOME/modules/intel-cmkl-16/16.0.2 cmake;module list;echo "setting default compilers";/opt/dev/intel/2016.update2/compilers_and_libraries_2016.2.181/linux/bin/compilervars.sh intel64;/opt/dev/intel/2016.update2/mkl/bin/mklvars.sh intel64;export INTEL_LICENSE_FILE={28518@mesu0,28518@mesu1,28518@mesu-smn};export CC=icc; export CXX=icpc; export FC=ifort; export F77=ifort; export F90=ifort; export LD_LIBRARY_PATH=/opt/dev/gnucompilers/gcc-5.4/lib64:$LD_LIBRARY_PATH
+    export HOME=/home/maurini;source /usr/share/modules/init/bash;export OMP_NUM_THREADS=1;export USE_THREAD=0;export MODULEPATH=/usr/share/modules/modulefiles:/opt/dev/modulefiles;echo "loading modules";module load gcc/5.4.0  intel-mpi/5.1.3.181 $HOME/modules/intel-cmkl-16/16.0.2 cmake;module list;echo "setting default compilers";/opt/dev/intel/2016.update2/mkl/bin/mklvars.sh intel64;export INTEL_LICENSE_FILE={28518@mesu0,28518@mesu1,28518@mesu-smn}; export LD_LIBRARY_PATH=/opt/dev/gnucompilers/gcc-5.4/lib64:$LD_LIBRARY_PATH; export I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc; export I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++; export CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc; export CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++; export FC=/opt/dev/gnucompilers/gcc-5.4/bin/gfortran;
 
 
 # require installed.  <#> will ensure that all packages
@@ -83,7 +82,7 @@ packages:
    # sources:
    # - key: tar.gz:iqfft6f4iar5xzrilsmzrmhx7iuii2fy
    #   url: https://sourceforge.net/projects/boost/files/boost/1.62.0/boost_1_62_0.tar.gz
-    toolset: intel-linux
+    toolset: gcc #intel-linux
     address_model: 64
     build_with: |
      python
@@ -128,6 +127,7 @@ packages:
     sources:
      - key: git:826609c7810ae4df06afa8767e2ba155d3a01a56
        url: https://bitbucket.org/fenics-project/dijitso.git
+  flufl_lock:
   gmsh:
   cppunit:
   dolfin:
@@ -136,24 +136,23 @@ packages:
        key: git:b8f3db93730b8e9efae8c88d94fb84e75aeff4b9
     build_with: |
        petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse,  scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
-    extra: ['-D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so',
-            '-D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so',
-            '-D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so',
-            '-D I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc',
-            '-D I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++',
-            '-D CMAKE_C_COMPILER=/opt/dev/gnucompilers/gcc-5.4/bin/gcc',
-            '-D CMAKE_CXX_COMPILER=/opt/dev/gnucompilers/gcc-5.4/bin/g++']
+    extra: ['-D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so,
+            -D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so,
+            -D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so
+            -D  I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc
+            -D  I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++
+            -D CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc
+            -D CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++']
   mshr:
    sources:
      - url: https://bitbucket.org/fenics-project/mshr.git
        key: git:6c4c7bb9410a27da5f83d0b6b0ebb406c09f378d
    build_with: |
       vtk, cmake
-  flufl_lock:
-#  matplotlib:
-#    sources:
-#     - url: http://downloads.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-#       key: tar.gz:lokuirzntvvlhvdueo63lihgj7pzcpsq
+  matplotlib:
+    sources:
+     - url: http://downloads.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+       key: tar.gz:lokuirzntvvlhvdueo63lihgj7pzcpsq
        # - url: https://pypi.python.org/packages/75/4e/2374eed18ac34421ccd7b4907080abd3009e112ca2c11b100c18961312e0/matplotlib-1.5.3.tar.gz
      #  key: tar.gz:ucs5yopxquau6iei73jmnuwrfhyeit3r
 
