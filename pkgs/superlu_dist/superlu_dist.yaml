@@ -30,6 +30,7 @@ build_stages:
     - '-D MPI_C_COMPILE_FLAGS:STRING=""'
     - '-D MPI_C_INCLUDE_PATH:STRING=""'
     - '-D MPI_C_LIBRARIES:STRING=""'
+    - '-D CMAKE_C_FLAGS:STRING="-std=c99 ${CFLAGS}"'
     - when with_openblas:
         - '-D BLA_VENDOR:STRING=OpenBLAS'
     - when not fortran:

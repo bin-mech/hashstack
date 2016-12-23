@@ -18,6 +18,14 @@ sources:
   url: https://bitbucket.org/petsc/pkg-ml/get/v6.2-p4.tar.gz
 
 build_stages:
+# Unset MPI_DIR since configure will add -lmpi, which does not always work
+- name: unset-MPI_DIR
+  after: prologue
+  before: configure
+  handler: bash
+  bash: |
+    unset MPI_DIR
+
 - name: set-cflags-and-cxxflags
   after: prologue
   before: configure
@@ -44,7 +52,6 @@ build_stages:
     - '--enable-mpi'
     - '--with-cflags="${CFLAGS} -fPIC -DMPICH_SKIP_MPICXX -DOMPI_SKIP_MPICXX"'
     - '--with-cxxflags="${CXXFLAGS} -fPIC -DMPICH_SKIP_MPICXX -DOMPI_SKIP_MPICXX"'
-    - '--with-ldflags=-lstdc++'
     - 'CC=${MPICC}'
     - 'CXX=${MPICXX}'
     - when fortran:

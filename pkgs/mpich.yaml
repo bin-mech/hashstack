@@ -3,6 +3,13 @@ dependencies:
   build: [libxml2, pkg-config]
 
 build_stages:
+  - name: unset_F90
+    before: configure
+    handler: bash
+    bash: |
+      unset F90
+      unset F90FLAGS
+
   - name: configure
     mode: update
     extra: ['--enable-shared']
@@ -10,11 +17,11 @@ build_stages:
   - when: not fortran
     name: configure
     mode: update
-    extra: ['--disable-f77', '--disable-fc']
+    extra: ['--disable-f77', '--disable-fc', '--disable-fortran']
 
 sources:
-  - url: http://www.mpich.org/static/tarballs/3.0.3/mpich-3.0.3.tar.gz
-    key: tar.gz:jj5yo7oe3e45wwngkuqqn35bud5kdfkr
+- key: tar.gz:62fvgmhjimdmadffuhaorytvy72tkf6q
+  url: http://www.mpich.org/static/downloads/3.1.4/mpich-3.1.4.tar.gz
 
 defaults:
   # bin/mpicc contains hard-coded path
