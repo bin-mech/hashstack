@@ -63,11 +63,11 @@ packages:
     sources:
     - key: tar.gz:skvlms373heeshxp77kmz27fzcqlvefe
       url: http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.7.4.tar.gz    #sources:
-   # build_with: |
-   #   parmetis
+  #  build_with: |
+  #    parmetis 
     download: |
      parmetis, metis, scotch, suitesparse, superlu, hypre, scalapack, blacs, mumps, ml, superlu_dist
-    coptflags: -O3 
+    coptflags: -O2
     link: shared
     debug: false
     fortran: true
@@ -114,10 +114,11 @@ packages:
   cppunit:
   dolfin:
     build_with: |
-       petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse,  scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
-    extra: ['-D I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc
-             -D I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++
-             -D CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc
+       petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse, scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
+    extra: ['-D DOLFIN_ENABLE_OPENMP=0,
+             -D I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc,
+             -D I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+             -D CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc,
              -D CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++']
 #            -D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so,
 #            -D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so,
