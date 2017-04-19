@@ -10,7 +10,7 @@ parameters:
   HOST_MPIEXEC: /usr/bin/mpiexec
   HOST_CMAKE: /usr/bin/cmake
   HOST_PYTHON: /usr/bin/python
-  HOST_PKG_CONFIG_EXECUTABLE: /usr/bin/pkgconfig
+  HOST_PKG_CONFIG_EXECUTABLE: /usr/bin/pkg-config
   HOST_SWIG_EXECUTABLE: /usr/bin/swig
   HOST_PETSC_DIR: /usr/lib/petsc
   HOST_PETSC_ARCH: linux-gnu-c-opt

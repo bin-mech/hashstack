@@ -5,3 +5,4 @@ parameters:
   platform: linux
   fortran: true
   PATH: /usr/bin:/bin
+  HOST_PYTHON: /usr/bin/python

@@ -35,6 +35,7 @@ def configure(ctx, stage_args):
                   '-D Boost_USE_MULTITHREADED:BOOL=${BOOST_USE_MULTITHREADED}',
                   '-D DOLFIN_ENABLE_UNIT_TESTS:BOOL=OFF',
                   '-D DOLFIN_ENABLE_OPENMP:BOOL=OFF']
+                  '-D DOLFIN_USE_PYTHON3=${USE_PYTHON3}']
 
     # CMake needs to be given all the dependency dirs as prefix paths
     # so that we search the HashDist directories before the system directories.

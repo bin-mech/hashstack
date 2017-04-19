@@ -1,0 +1,12 @@
+extends: [cmake_package]
+dependencies:
+  build: [boost, swig, numpy, python]
+  run: [boost, swig, numpy, python]
+
+sources:
+- key: zip:hura7cntcvxaahvdv226bflfohd2m4m2
+  url: https://bitbucket.org/johanhake/goss/get/7cd917391ecc.zip
+
+defaults:
+  # lib/libgoss.so.0.9.0 contains hard-coded path
+  relocatable: false

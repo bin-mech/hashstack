@@ -85,16 +85,12 @@ build_stages:
     - '--with-blas="/usr/lib/libblas.dylib,/usr/lib/libcblas.dylib"'
     - '--with-lapack="/usr/lib/lapack.dylib,/usr/lib/clapack.dylib,/usr/lib/f77lapack.dylib"'
 
-- when: not (with_openblas or with_accelerate)
+- when: not with_accelerate and not with_openblas and not with_mkl
   name: configure
   mode: update
   extra:
-    - when platform == 'Darwin':
-        - '--with-blas=${BLAS_DIR}/lib/libblas.dylib'
-        - '--with-lapack=${LAPACK_DIR}/lib/liblapack.dylib'
-    - when platform != 'Darwin':
-        - '--with-blas=${BLAS_DIR}/lib/libblas.so'
-        - '--with-lapack=${LAPACK_DIR}/lib/liblapack.so'
+    - '--with-blas="${BLAS_LDFLAGS}"'
+    - '--with-lapack="${LAPACK_LDFLAGS}"'
 
 - name: caveats
   after: install

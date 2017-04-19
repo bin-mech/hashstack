@@ -76,3 +76,5 @@ build_stages:
 when_build_dependency:
 - when platform == 'Cygwin':
   - {prepend_path: PATH, value: '${ARTIFACT}/bin'}
+- prepend_path: PKG_CONFIG_PATH
+  value: '${ARTIFACT}/lib/pkgconfig'

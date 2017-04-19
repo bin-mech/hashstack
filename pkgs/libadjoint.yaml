@@ -1,10 +1,10 @@
 extends: [cmake_package]
 dependencies:
-  build: [gccxml, mpi, petsc, slepc, {{build_with}}]
+  build: [mpi, petsc, slepc, {{build_with}}]
 
 sources:
-- key: tar.gz:hxzxqmsuietvrslbw2zouptnci4wmr4i
-  url: https://bitbucket.org/dolfin-adjoint/libadjoint/get/libadjoint-2016.1.0.tar.gz
+  - key: tar.gz:obrssho3livpz242c45wwa5oozwn3mtp
+    url: https://bitbucket.org/dolfin-adjoint/libadjoint/get/libadjoint-2016.2.0.tar.gz
 
 defaults:
   # lib/python2.7/site-packages/libadjoint/clibadjoint.py contains hard-coded path

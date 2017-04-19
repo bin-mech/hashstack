@@ -4,5 +4,5 @@ dependencies:
   run: [dolfin, numpy, petsc4py, scipy, ufl, {{build_with}}]
 
 sources:
-- key: git:567730c8448f19674588667c4ec959026c2b78f4
+- key: git:8447b459156459b5a6f29ce8129fc07c2dc644cd
   url: https://bitbucket.org/fenics-apps/cbc.block.git

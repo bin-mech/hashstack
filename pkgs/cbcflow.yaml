@@ -1,0 +1,8 @@
+extends: [pip_package]
+dependencies:
+  build: []
+  run: [dijitso, dolfin, fiat, ffc, instant, ufl]
+
+sources:
+- key: git:742e513a4c7fec797e96b639437f36aa67929a8b
+  url: https://bitbucket.org/simula_cbc/cbcflow.git

@@ -44,3 +44,7 @@ build_stages:
    after: make
    bash: |
      make install
+
+when_build_dependency:
+- prepend_path: PKG_CONFIG_PATH
+  value: '${ARTIFACT}/lib/pkgconfig'

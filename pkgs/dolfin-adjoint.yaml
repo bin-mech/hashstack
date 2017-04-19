@@ -1,11 +1,11 @@
 extends: [distutils_package]
 dependencies:
-  build: [gccxml, libadjoint, petsc, slepc]
+  build: [libadjoint, petsc, slepc]
   run: [dolfin, ffc, fiat, instant, libadjoint, numpy, scipy, ufl]
 
 sources:
-- key: tar.gz:cvf5yxlscx6dkecem2x4bt6q3lrli6uh
-  url: https://bitbucket.org/dolfin-adjoint/dolfin-adjoint/get/dolfin-adjoint-2016.1.0.tar.gz
+- key: tar.gz:mtwlwhdz32np3tx2tlyd4sa5gwexgu6y
+  url: https://bitbucket.org/dolfin-adjoint/dolfin-adjoint/get/dolfin-adjoint-2016.2.0.tar.gz
 
 when_build_dependency:
 - prepend_path: PATH
