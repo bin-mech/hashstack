@@ -9,15 +9,17 @@ extends:
 - file: linux.yaml
 
 parameters:
-  HOST_MPICC:  /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpigcc
-  HOST_MPICXX: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpigxx
-  HOST_MPIF77: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpifc
-  HOST_MPIF90: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpifc
-  HOST_MPIEXEC: /opt/dev/intel/2016.update2/impi/5.1.3.181/bin64/mpiexec
+  HOST_MPICC: /opt/dev/intel/2017_Update2/impi/2017.2.174/bin64/mpigcc
+  HOST_MPICXX: /opt/dev/intel/2017_Update2/impi/2017.2.174/bin64/mpigxx
+  HOST_MPIF77: /opt/dev/intel/2017_Update2/impi/2017.2.174/bin64/mpifc
+  HOST_MPIF90: /opt/dev/intel/2017_Update2/impi/2017.2.174/bin64/mpifc
+  HOST_MPIEXEC: /opt/dev/intel/2017_Update2/impi/2017.2.174/bin64/mpiexec
   HOST_MKLROOT: /opt/dev/intel/2016.update2/mkl/
   HOST_MKLPATH: /opt/dev/intel/2016.update2/mkl/lib/intel64/
+  HOST_MPI_HOME: /opt/dev/intel/2017_Update2/impi/2017.2.174/intel64
+  HOST_MPILIBDIR: /opt/dev/intel/2017_Update2/impi/2017.2.174/intel64/lib
   PROLOGUE: |
-    export HOME=/home/maurini;source /usr/share/modules/init/bash;export OMP_NUM_THREADS=1;export USE_THREAD=0;export MODULEPATH=/usr/share/modules/modulefiles:/opt/dev/modulefiles;echo "loading modules";module load gcc/5.4.0  intel-mpi/5.1.3.181 intel-cmkl-16/16.0.2 cmake;module list;echo "setting default compilers";/opt/dev/intel/2016.update2/mkl/bin/mklvars.sh intel64;export INTEL_LICENSE_FILE={28518@mesu0,28518@mesu1,28518@mesu-smn}; export LD_LIBRARY_PATH=/opt/dev/gnucompilers/gcc-5.4/lib64:$LD_LIBRARY_PATH; export I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc; export I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++; export CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc; export CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++; export FC=/opt/dev/gnucompilers/gcc-5.4/bin/gfortran;
+    export HOME=/home/maurini;source /usr/share/modules/init/bash;export OMP_NUM_THREADS=1;export USE_THREAD=0; export MODULEPATH=/usr/share/modules/modulefiles:/opt/dev/modulefiles; echo "loading modules"; module load gcc/5.4.0  intel-mpi/2017.2 intel-cmkl-16/16.0.2 cmake; module list;echo "setting default compilers"; /opt/dev/intel/2016.update2/mkl/bin/mklvars.sh intel64; export INTEL_LICENSE_FILE={28518@mesu0,28518@mesu1,28518@mesu-smn}; export LD_LIBRARY_PATH=/opt/dev/gnucompilers/gcc-5.4/lib64:$LD_LIBRARY_PATH; export I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc; export I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++;  export CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc; export CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++; export FC=/opt/dev/gnucompilers/gcc-5.4/bin/gfortran;
 
 
 # require installed.  <#> will ensure that all packages
@@ -64,7 +66,7 @@ packages:
     - key: tar.gz:skvlms373heeshxp77kmz27fzcqlvefe
       url: http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.7.4.tar.gz    #sources:
   #  build_with: |
-  #    parmetis 
+  #    parmetis
     download: |
      parmetis, metis, scotch, suitesparse, superlu, hypre, scalapack, blacs, mumps, ml, superlu_dist
     coptflags: -O2
@@ -115,14 +117,17 @@ packages:
   dolfin:
     build_with: |
        petsc4py, blas, lapack, slepc4py, openblas, vtk, suitesparse, scotch, parmetis, petsc, slepc, zlib, hdf5, bzip2
-    extra: ['-D DOLFIN_ENABLE_OPENMP=0,
-             -D I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc,
-             -D I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
-             -D CC=/opt/dev/gnucompilers/gcc-5.4/bin/gcc,
-             -D CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++']
+    extra: ['-D DOLFIN_ENABLE_OPENMP=0'] #,
+          #   -D -DCMAKE_C_COMPILER=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+          #   -D -DCMAKE_CXX_COMPILER=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+          #   -D I_MPI_CC=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+          #   -D I_MPI_CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+          #   -D CC=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+          #   -D CXX=/opt/dev/gnucompilers/gcc-5.4/bin/g++,
+          #   -D MPI_LIB=/opt/dev/intel/2016.update2/impi/5.1.3.181/intel64/lib/libmpi.so']
 #            -D MKL_LIBRARIES=${MKLPATH}/libmkl_intelmpi_lp64.so,
 #            -D LAPACK_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_intelmpi_lp64.so,
-#            -D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so  
+#            -D BLAS_LIBRARIES:FILEPATH=${MKLPATH}/libmkl_blacs_intelmpi_lp64.so
   mshr:
 #   sources:
 #     - url: https://bitbucket.org/fenics-project/mshr.git
@@ -133,6 +138,7 @@ packages:
     sources:
       - url: https://pypi.python.org/packages/75/4e/2374eed18ac34421ccd7b4907080abd3009e112ca2c11b100c18961312e0/matplotlib-1.5.3.tar.gz
         key: tar.gz:ucs5yopxquau6iei73jmnuwrfhyeit3r
-
-
+  jupyter:
+  scipy:
+  subprocess32:
 

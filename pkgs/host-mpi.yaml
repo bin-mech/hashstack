@@ -9,6 +9,7 @@ when_build_dependency:
 #  - {set: 'I_MPI_F90', value: '{{HOST_I_MPI_F90}}'}
 #  - {set: 'I_MPI_F77', value: '{{HOST_I_MPI_F77}}'}
 #  - {set: 'I_MPI_FC', value: '{{HOST_I_MPI_FC}}'}
-#  - {set: 'MPI_HOME', value: '{{HOST_MPI_HOME}}'}
+  - {set: 'MPI_HOME', value: '{{HOST_MPI_HOME}}'}
+  - {set: 'MPI_LIBDIR', value: '{{HOST_MPILIBDIR}}'}
 # HOST_MPI_DIR: /opt/dev/sgi/mpt/mpt-2.08
 
